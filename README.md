@@ -1,3 +1,4 @@
+
 Fonctions pour télécharger les données de Mangal
 ================================================
 
@@ -6,12 +7,23 @@ Introduction
 
 Cet ensemble de fonction a pour but de télécharger les données de Mangal et les rendre accessible à l'utilisateur.
 
-To do : \[\] Ajouter la table environnement ; \[\] Simplifier la fonction `mangal()` ; \[\] Ajouter la posibilité de rechercher les informations dans Mangal par d'autres moyen (id d'un dataset, network ou autre) ; \[\] Rendre plus explicite le nom des fonctions pour éviter les erreurs de frappe.
+To do :
+
+-   \[ \] Ajouter la table environnement ;
+-   \[ \] Simplifier la fonction `mangal()` ;
+-   \[ \] Ajouter la posibilité de rechercher les informations dans Mangal par d'autres moyen (id d'un dataset, network ou autre) ;
+-   \[ \] Rendre plus explicite le nom des fonctions pour éviter les erreurs de frappe.
 
 Vignette
 --------
 
-Attention, ces fonctions ont besoin des packages suivant installé sur votre machine : \* `tibble` ; \* `purrr` ; \* `dplyr` ; \* `tidyr` ; \* `httr`.
+Attention, ces fonctions ont besoin des packages suivant installé sur votre machine :
+
+-   `tibble` ;
+-   `purrr` ;
+-   `dplyr` ;
+-   `tidyr` ;
+-   `httr`.
 
 Pour le moment, les fonctions utilisent uniquement le nom du dataset tel qu'il est entré dans Mangal. Pour cet exemple, on va utiliser le dataset dont le nom est `woodwell_1967`.
 
