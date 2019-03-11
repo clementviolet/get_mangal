@@ -1,0 +1,62 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message=FALSE)
+```
+# Fonctions pour télécharger les données de Mangal
+## Introduction
+Cet ensemble de fonction a pour but de télécharger les données de Mangal et les rendre accessible à l'utilisateur.
+
+To do :
+[] Ajouter la table environnement ;
+[] Simplifier la fonction `mangal()` ;
+[] Ajouter la posibilité de rechercher les informations dans Mangal par d'autres moyen (id d'un dataset, network ou autre) ;
+[] Rendre plus explicite le nom des fonctions pour éviter les erreurs de frappe.
+
+## Vignette
+Attention, ces fonctions ont besoin des packages suivant installé sur votre machine :
+* `tibble` ;
+* `purrr` ;
+* `dplyr` ;
+* `tidyr` ;
+* `httr`.
+
+Pour le moment, les fonctions utilisent uniquement le nom du dataset tel qu'il est entré dans Mangal. Pour cet exemple, on va utiliser le dataset dont le nom est `woodwell_1967`.
+```{r echo = TRUE}
+# Chargement des fonctions
+source("attribute.R")
+source("dataset.R")
+source("interaction.R")
+source("network.R")
+source("node.R")
+source("reference.R")
+source("taxonomy.R")
+source("user.R")
+
+nom_dataset <- "woodwell_1967"
+```
+
+Chaque fonction récupère la table dont elle porte le nom, par exemple `node()` permet de récupérer tous les nodes d'un dataset simplement.
+
+```{r echo = TRUE}
+node_woodwell <- node(dataset_name = nom_dataset)
+```
+
+Par défaut toutes fonctions renvoies la sortie brute de la base de donnée, mais il également possible d'obtenir un `dataframe` plus simple à manipuler en spécifiant `raw = FALSE`.
+
+```{r}
+node_woodwell <- node(dataset_name = nom_dataset, raw = FALSE)
+```
+```{r echo = FALSE}
+knitr::kable(node_woodwell)
+```
+
+La fonction `mangal()` permet quant à elle de récupérer toutes les tables liées à un dataset, dans une `nested list` de `list` ou de `dataframe` comme pour les autres fonctions.
+
+```{r}
+source("mangal.R")
+all_woodwell <- mangal(nom_dataset, raw = FALSE)
+```
