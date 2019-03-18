@@ -15,7 +15,18 @@ network <- function(dataset_name, raw = TRUE){
   
   stopifnot(is.character(dataset_name))
   
-  networks <- dataset(dataset_name, raw = TRUE)
+  datasets <- dataset(dataset_name, raw = TRUE)
+  networks <- list()
+  
+  for(data in 1:length(dataset_name)){
+    uri <- modify_url(url   = "http://poisotlab.biol.umontreal.ca", 
+                      path  = paste0("/api/v2/","network"), 
+                      query = paste0("dataset_id=", datasets[[data]]$id))
+    
+    networks[data] <- list(content(GET(url    = uri,
+                                       config = httr::add_headers(Authorization = paste("Bearer", readRDS(".httr-oauth"))))))
+  }
+  
   
   if(raw){
     networks <- networks %>%
@@ -25,7 +36,6 @@ network <- function(dataset_name, raw = TRUE){
   }else{
     # Récupère les infos des networks dont le type de coordonés et NULL ou des points
     net_point <- networks %>% #Fonctionne sauf pour les polygones
-      map(~.x$networks) %>%
       flatten() %>%
       map(~compact(.x)) %>%
       map_if(is.list, ~flatten(flatten(flatten(.x)))) %>%
@@ -37,7 +47,6 @@ network <- function(dataset_name, raw = TRUE){
     # Récupère toutes les métadonnées des networks dont le type de coordonés est Polygon, mais sans les coordonés 
     
     net_poly_no_coord <- networks %>%
-      map(~.x$networks) %>%
       flatten() %>%
       map(~compact(.x)) %>%
       keep(.p = map(., ~.x$geom$type) == "Polygon") %>%
@@ -46,7 +55,6 @@ network <- function(dataset_name, raw = TRUE){
     
     # Récupère les coordonés des networks dons le type de coordonés est "Polygon"
     net_poly_coord <- networks %>% 
-      map(~.x$networks) %>%
       flatten() %>%
       map(~compact(.x)) %>%
       keep(.p = map(., ~.x$geom$type) == "Polygon") %>%
